@@ -212,7 +212,7 @@ func NewSampleDataHub() sabi.DataHub {
 
 ///
 
-func TestStandaloneSync(t *testing.T) {
+func TestStandalone(t *testing.T) {
 	t.Run("test NewRedisDataSrc", func(t *testing.T) {
 		ctx := context.Background()
 		data := NewSampleDataHub()
