@@ -99,7 +99,9 @@ func (dc *RedisDataConn) ForceBack(ag *sabi.AsyncGroup) {
 }
 
 // Close does nothing for this data connection.
-func (dc *RedisDataConn) Close() {}
+func (dc *RedisDataConn) Close() {
+	dc.conn.Close()
+}
 
 // RedisDataSrc is a data source for Redis.
 type RedisDataSrc struct {
