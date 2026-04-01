@@ -14,11 +14,15 @@ import (
 )
 
 type /* error reasons */ (
-	// NotSetupYet is an error reason which indicates that the data source is not setup yet.
+	// RedisDataSrcNotSetupYet is an error reason which indicates that the data source is not setup
+	// yet.
 	RedisDataSrcNotSetupYet struct{}
-	// AlreadySetup is an error reason which indicates that the data source is already setup.
+
+	// RedisDataSrcAlreadySetup is an error reason which indicates that the data source is already
+	// setup.
 	RedisDataSrcAlreadySetup struct{}
-	// FailToPing is an error reason which indicates that the data source failed to ping.
+
+	// RedisDataSrcFailToPing is an error reason which indicates that the data source failed to ping.
 	RedisDataSrcFailToPing struct {
 		Options *redis.Options
 	}

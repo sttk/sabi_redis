@@ -36,7 +36,7 @@ func (da *RedisSentinelSampleDataAcc) GetSampleKey() (string, errs.Err) {
 		if e == redis.Nil {
 			return "", errs.Ok()
 		}
-		return "", errs.New(FailToGetValue{}, e)
+		return "", errs.New(FailToGetValueSentinel{}, e)
 	}
 	return val, errs.Ok()
 }
