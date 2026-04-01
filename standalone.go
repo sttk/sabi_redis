@@ -15,11 +15,11 @@ import (
 
 type /* error reasons */ (
 	// NotSetupYet is an error reason which indicates that the data source is not setup yet.
-	NotSetupYet struct{}
+	RedisDataSrcNotSetupYet struct{}
 	// AlreadySetup is an error reason which indicates that the data source is already setup.
-	AlreadySetup struct{}
+	RedisDataSrcAlreadySetup struct{}
 	// FailToPing is an error reason which indicates that the data source failed to ping.
-	FailToPing struct {
+	RedisDataSrcFailToPing struct {
 		Options *redis.Options
 	}
 )
@@ -119,14 +119,14 @@ func NewRedisDataSrc(opt *redis.Options) *RedisDataSrc {
 // Setup initializes the Redis client and pings the server.
 func (ds *RedisDataSrc) Setup(ag *sabi.AsyncGroup) errs.Err {
 	if ds.options == nil {
-		return errs.New(AlreadySetup{})
+		return errs.New(RedisDataSrcAlreadySetup{})
 	}
 
 	ds.client = redis.NewClient(ds.options)
 	ds.options = nil
 	_, e := ds.client.Ping(context.Background()).Result()
 	if e != nil {
-		return errs.New(FailToPing{Options: ds.client.Options()}, e)
+		return errs.New(RedisDataSrcFailToPing{Options: ds.client.Options()}, e)
 	}
 	return errs.Ok()
 }
@@ -142,5 +142,8 @@ func (ds *RedisDataSrc) Close() {
 
 // CreateDataConn creates a new RedisDataConn.
 func (ds *RedisDataSrc) CreateDataConn() (sabi.DataConn, errs.Err) {
+	if ds.client == nil {
+		return nil, errs.New(RedisDataSrcNotSetupYet{})
+	}
 	return newRedisDataConn(ds.client.Conn()), errs.Ok()
 }
