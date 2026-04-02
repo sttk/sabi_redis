@@ -14,11 +14,16 @@ import (
 )
 
 type /* error reasons */ (
-	// RedisSentinelDataSrcNotSetupYet is an error reason which indicates that the data source is not setup yet.
+	// RedisSentinelDataSrcNotSetupYet is an error reason which indicates that the data source is not
+	// setup yet.
 	RedisSentinelDataSrcNotSetupYet struct{}
-	// RedisSentinelDataSrcAlreadySetup is an error reason which indicates that the data source is already setup.
+
+	// RedisSentinelDataSrcAlreadySetup is an error reason which indicates that the data source is
+	// already setup.
 	RedisSentinelDataSrcAlreadySetup struct{}
-	// RedisSentinelDataSrcFailToPing is an error reason which indicates that the data source failed to ping.
+
+	// RedisSentinelDataSrcFailToPing is an error reason which indicates that the data source failed
+	// to ping.
 	RedisSentinelDataSrcFailToPing struct {
 		Options *redis.Options
 	}
@@ -99,7 +104,9 @@ func (dc *RedisSentinelDataConn) ForceBack(ag *sabi.AsyncGroup) {
 }
 
 // Close does nothing for this data connection.
-func (dc *RedisSentinelDataConn) Close() {}
+func (dc *RedisSentinelDataConn) Close() {
+	dc.conn.Close()
+}
 
 // RedisSentinelDataSrc is a data source for Redis Sentinel.
 type RedisSentinelDataSrc struct {
