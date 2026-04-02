@@ -112,6 +112,27 @@ hub.Uses("redis", ds)
 err := sabi.Run(hub, ctx, sampleLogic)
 ```
 
+## Supporting Go versions
+
+This library supports Go 1.23 or later.
+
+### Actual test results for each Go version:
+
+```sh
+% go-fav 1.23.12 1.24.13 1.25.8 1.26.1
+go version go1.23.12 darwin/amd64
+ok  	github.com/sttk/sabi_redis	9.414s	coverage: 77.9% of statements
+
+go version go1.24.13 darwin/amd64
+ok  	github.com/sttk/sabi_redis	9.253s	coverage: 77.9% of statements
+
+go version go1.25.8 darwin/amd64
+ok  	github.com/sttk/sabi_redis	9.356s	coverage: 77.9% of statements
+
+go version go1.26.1 darwin/amd64
+ok  	github.com/sttk/sabi_redis	9.295s	coverage: 77.9% of statements
+```
+
 ## License
 
 Copyright (C) 2026 Takayuki Sato
