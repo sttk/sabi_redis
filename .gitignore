@@ -11,4 +11,4 @@ appendonlydir
 nodes.conf
 
 # Sentinel config file
-env/sentinel/sentinel-*.conf
+_env/sentinel/sentinel-*.conf
