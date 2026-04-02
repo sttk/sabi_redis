@@ -131,7 +131,7 @@ func (da *RedisSampleDataAcc) SetSampleKeyWithPostCommit(val string) errs.Err {
 		return err
 	}
 
-	dc.AddPreCommit(func(redisConn *redis.Conn) errs.Err {
+	dc.AddPostCommit(func(redisConn *redis.Conn) errs.Err {
 		e := redisConn.Set(ctx, "sample_post_commit", val, 0).Err()
 		if e != nil {
 			return errs.New(FailToSetValue{}, e)
@@ -163,6 +163,9 @@ func sampleLogic(data SampleData) errs.Err {
 	}
 
 	err = data.SetSampleKey("Hello")
+	if err.IsNotOk() {
+		return err
+	}
 
 	val, err = data.GetSampleKey()
 	if err.IsNotOk() {
@@ -210,6 +213,8 @@ func NewSampleDataHub() sabi.DataHub {
 	}
 }
 
+var _ SampleData = (*SampleDataHub)(nil)
+
 ///
 
 func TestStandalone(t *testing.T) {
@@ -237,7 +242,7 @@ func TestStandalone(t *testing.T) {
 			assert.Len(t, r.Errors, 1)
 			err2 := r.Errors["redis"]
 			switch r2 := err2.Reason().(type) {
-			case sabi_redis.FailToPing:
+			case sabi_redis.RedisDataSrcFailToPing:
 				assert.Equal(t, r2.Options.Addr, "xxxx")
 				assert.Equal(t, r2.Options.DB, 0)
 			default:
