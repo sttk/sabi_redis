@@ -23,6 +23,6 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version: ${{ matrix.gover }}
-    - run: docker compose -f env/standalone-docker/docker-compose.yml up -d
+    - run: docker compose -f _env/standalone-docker/docker-compose.yml up -d
     - run: go build -v ./...
     - run: go test -v -run TestStandalone -cover ./...
